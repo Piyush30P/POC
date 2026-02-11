@@ -1,0 +1,241 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+**Last Updated:** February 11, 2026- Email: [team email]- Slack: `#clearsight-rca-dashboard`**Questions?** Check the main documentation or contact the team:## 📞 Support---- **[Database Indexing Analysis.md](Database%20Indexing%20Analysis.md)** - Performance tuning- **[ARCHITECTURE_DIAGRAMS.md](ARCHITECTURE_DIAGRAMS.md)** - System architecture- **[RCA_DASHBOARD_README.md](RCA_DASHBOARD_README.md)** - Complete feature documentation## 📚 Documentation Index---   - Publish Power BI dashboard to Power BI Service   - Deploy FastAPI with gunicorn/uvicorn in production mode   - Use environment-specific `.env` files   - Set `API_KEY` to strong secret4. **Production Deployment:**   - Run: `python scripts/run_rca_etl.py --cloudwatch-days 7`   - Remove `--mock-cloudwatch` flag   - Configure AWS credentials: `aws configure`3. **Enable CloudWatch Integration:**   - Create 5 pages: Scenario Overview, User Journey, Run Diagnostics, Run Comparison, Reliability Insights   - Follow [RCA_DASHBOARD_README.md](RCA_DASHBOARD_README.md) for dashboard design2. **Build Power BI Dashboard:**   - Schedule incremental ETL (cron/Task Scheduler)   - Run full ETL: `python scripts/run_rca_etl.py --full`1. **Load Real Data:**## 🎯 Next Steps---```python scripts/run_rca_etl.py --cloudwatch-days 7 --mock-cloudwatch# Use mock extractor instead```powershell**Solution (for testing without AWS):**### Issue: "CloudWatch extractor fails"```alembic upgrade head  # Apply pending migrationsalembic current  # Check current revision```powershell**Solution:**### Issue: "Alembic: Target database is not up to date"```psql -h localhost -U readonly_user -d clearsight -c "SELECT 1"```powershell3. Test connection:2. Check credentials in `.env`1. Verify PostgreSQL is running: `Get-Service postgresql*`**Solution:**### Issue: "Database connection failed"```pip install boto3```powershell**Solution:**### Issue: "No module named 'boto3'"## 🐛 Troubleshooting---```curl http://localhost:8000/api/v1/rca/run/<run-id>/diagnostics```powershell### Test Run Diagnostics```Invoke-RestMethod -Uri "http://localhost:8000/api/v1/rca/scenario/<scenario-id>/audit-trail" -Method Get# Using PowerShellcurl http://localhost:8000/api/v1/rca/scenario/<scenario-id>/audit-trail# Using curl```powershell### Test Audit Trail Endpoint## 📊 Example Queries---5. Power Query Editor opens → Click **Close & Apply**4. Click **OK**   - Replace `{scenario_id}` with actual UUID from your database3. Enter URL: `http://localhost:8000/api/v1/rca/scenario/{scenario_id}/audit-trail`2. **Get Data** → **Web**1. Open Power BI Desktop### Step 6: Connect Power BI- etc.- `/api/v1/rca/run/{run_id}/diagnostics`- `/api/v1/rca/scenario/{scenario_id}/audit-trail`You should see the Swagger UI with RCA endpoints:```http://localhost:8000/docs# Open in browser```powershellTest API:```python -m uvicorn src.api.main:app --reload --port 8000# Start FastAPI server```powershell### Step 5: Start API Server```✅ Audit trail ETL completed successfully!   ✅ Loaded 127 user actions   ✅ Loaded 45 state changes📥 Loading into reporting DB...   ✅ Extracted 127 user action records📤 Extracting user actions...   ✅ Extracted 45 state change records📤 Extracting state changes...🔄 Starting audit trail ETL...```Expected output:```python scripts/run_rca_etl.py --incremental --cloudwatch-days 7 --mock-cloudwatch# OR with mock CloudWatch datapython scripts/run_rca_etl.py --incremental# Load last 7 days of data (without CloudWatch)```powershell### Step 4: Run Initial ETL Load```INFO  [alembic.runtime.migration] Running upgrade -> rca_001, Add RCA audit trail tables```Expected output:```alembic upgrade head# Create reporting schema and tables```powershell### Step 3: Run Database Migrations```API_KEY=dev-api-key-change-in-production# API SettingsREPORTING_DB_PASSWORD=your_passwordREPORTING_DB_USER=reporting_userREPORTING_DB_SCHEMA=rptREPORTING_DB_NAME=clearsightREPORTING_DB_PORT=5432REPORTING_DB_HOST=localhost# Reporting Database (Read-Write)SOURCE_DB_PASSWORD=your_passwordSOURCE_DB_USER=readonly_userSOURCE_DB_NAME=clearsightSOURCE_DB_PORT=5432SOURCE_DB_HOST=localhost# Source Database (Read-Only)```env**Required settings in `.env`:**```notepad .env# Edit .env with your credentialsCopy-Item .env.example .env# Copy example environment file```powershell### Step 2: Configure Environment```pip install boto3pip install -e .# Install package with CloudWatch support```powershell### Step 1: Install Dependencies- AWS credentials (optional, for CloudWatch integration)- PostgreSQL 14+ (with source and reporting databases)- Python 3.11+### Prerequisites## 🚀 5-Minute Setupbuild-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "clearsight-dashboard"
+version = "0.1.0"
+description = "ClearSight 2.0 Scenario Audit & RCA Dashboard"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi[standard]>=0.115.0",
+    "sqlalchemy[asyncio]>=2.0",
+    "asyncpg>=0.30.0",
+    "psycopg2-binary>=2.9",
+    "pydantic-settings>=2.0",
+    "alembic>=1.14",
+    "pandas>=2.2",
+    "python-dotenv>=1.0",
+    "boto3>=1.35.0",  # For CloudWatch log extraction
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+    "httpx>=0.27",
+    "faker>=30.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
