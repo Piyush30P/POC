@@ -22,6 +22,16 @@ The **ClearSight 2.0 RCA Dashboard** reconstructs the complete audit trail of fo
 
 ---
 
+## 🏗️ Architecture Diagrams
+
+### Dashboard Architecture
+![image1](image1)
+
+### Scenario Audit & RCA Dashboard Architecture
+![image2](image2)
+
+---
+
 ## ✨ Key Features
 
 | Feature                        | Description                                                       |
@@ -42,9 +52,9 @@ Source DB + CloudWatch → ETL Pipeline → Reporting DB → FastAPI → Power B
 
 **Data Flow:**
 
-1. **Extract** - Pull data from fc\_\* tables + CloudWatch logs
+1. **Extract** - Pull data from fc_* tables + CloudWatch logs
 2. **Transform** - Reconstruct user journeys, run comparisons, error categorization
-3. **Load** - Populate rpt.\* fact/dimension tables
+3. **Load** - Populate rpt.* fact/dimension tables
 4. **Serve** - FastAPI endpoints for Power BI consumption
 
 **Tech Stack:**
@@ -169,7 +179,7 @@ python -m uvicorn src.api.main:app --reload --port 8000
 
 ## 📊 Database Schema
 
-**Reporting Schema (rpt.\*):**
+**Reporting Schema (rpt.*):**
 
 **Dimension Tables:**
 
@@ -324,4 +334,4 @@ Internal Merck/MSD project. For internal use only.
 
 **Version:** 1.0.0  
 **Status:** ✅ Implementation Complete  
-**Last Updated:** February 11, 2026
+**Last Updated:** 2026-02-12 19:28:50
