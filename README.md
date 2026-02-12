@@ -1,4 +1,4 @@
-# ClearSight 2.0 - Scenario Audit & RCA Dashboard
+# Scenario Audit & RCA Dashboard
 
 > **Developer-facing Power BI dashboard for faster, more consistent forecast debugging**
 
@@ -11,7 +11,7 @@
 
 ## 📋 Overview
 
-The **ClearSight 2.0 RCA Dashboard** reconstructs the complete audit trail of forecast scenarios by integrating:
+The **RCA Dashboard** reconstructs the complete audit trail of forecast scenarios by integrating:
 
 - PostgreSQL database tables (scenarios, runs, inputs)
 - AWS CloudWatch logs (errors, diagnostics)
@@ -24,11 +24,11 @@ The **ClearSight 2.0 RCA Dashboard** reconstructs the complete audit trail of fo
 
 ## 🏗️ Architecture Diagrams
 
-### Dashboard Architecture
-![image1](image1)
+### High Level Overview
+![High Level Overview](high%20level%20overview.png)
 
-### Scenario Audit & RCA Dashboard Architecture
-![image2](image2)
+### Overall Overview
+![Overall Overview](overall%20overview.png)
 
 ---
 
@@ -302,9 +302,8 @@ python scripts/run_rca_etl.py --cloudwatch-days 7 --mock-cloudwatch
 
 ## 🤝 Contributing
 
-This is an internal Merck/MSD project. For questions or contributions:
+For questions or contributions:
 
-- **Slack:** `#clearsight-rca-dashboard`
 - **Documentation:** See [docs/](docs/)
 - **Issues:** Contact project team
 
@@ -312,7 +311,7 @@ This is an internal Merck/MSD project. For questions or contributions:
 
 ## 📄 License
 
-Internal Merck/MSD project. For internal use only.
+Internal project. For internal use only.
 
 ---
 
@@ -327,11 +326,11 @@ Internal Merck/MSD project. For internal use only.
 
 **Inspired by:**
 
-- ClearSight 2.0 Forecasting Platform
+- Forecasting Platform best practices
 - Microsoft DevOps best practices
 
 ---
 
 **Version:** 1.0.0  
 **Status:** ✅ Implementation Complete  
-**Last Updated:** 2026-02-12 19:28:50
+**Last Updated:** 2026-02-12
